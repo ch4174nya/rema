@@ -29,11 +29,10 @@ function App() {
                 Try Demo
               </Link>
               <button 
-                onClick={() => setShowApplicationForm(true)}
-                className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center"
+                onClick={() => window.open('https://forms.gle/vpC1xCP61Mex54dE8', '_blank')}
+                className="bg-indigo-600 text-white px-8 py-4 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center group"
               >
-                Apply for Access
-                <ChevronRight className="ml-2 h-4 w-4" />
+                Apply for Early Access
               </button>
             </div>
             <div className="md:hidden">
