@@ -94,13 +94,15 @@ function App() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <button 
-                onClick={() => setShowApplicationForm(true)}
+                onClick={() => window.open('https://forms.gle/vpC1xCP61Mex54dE8', '_blank')}
                 className="bg-indigo-600 text-white px-8 py-4 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center group"
               >
                 Apply for Early Access
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </button>
-              <button className="bg-white text-gray-900 px-8 py-4 rounded-lg hover:bg-gray-50 transition">
+              <button
+               onClick={() => window.open('https://youtu.be/wgiOeA3e2rQ', '_blank')}
+               className="bg-indigo-600 text-white px-8 py-4 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center group">
                 Watch Demo
               </button>
             </div>
