@@ -5,9 +5,9 @@ export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
     name: 'John Smith',
-    email: 'john.smith@propai.com',
+    email: 'john.smith@rema.com',
     phone: '+65 9123 4567',
-    agency: 'PropAI Realty',
+    agency: 'REMA Realty',
     licenseNumber: 'R123456A',
     experience: '8 years',
     specializations: ['Residential', 'Luxury Properties', 'New Launch'],

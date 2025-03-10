@@ -13,7 +13,7 @@ export default function DemoLayout() {
       <div className="w-64 bg-white border-r">
         <div className="h-16 flex items-center px-6 border-b">
           <Building2 className="h-8 w-8 text-indigo-600" />
-          <span className="ml-2 text-xl font-bold text-gray-900">PropAI</span>
+          <span className="ml-2 text-xl font-bold text-gray-900">REMA</span>
         </div>
         <nav className="p-4 space-y-2">
           <Link

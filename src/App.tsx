@@ -14,7 +14,7 @@ function App() {
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center">
               <Building2 className="h-8 w-8 text-indigo-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">PropAI</span>
+              <span className="ml-2 text-xl font-bold text-gray-900">REMA</span>
             </div>
             <div className="hidden md:flex space-x-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900">Features</a>
@@ -110,7 +110,7 @@ function App() {
                 <img className="h-8 w-8 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
                 <img className="h-8 w-8 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
               </div>
-              <span className="text-sm text-gray-300">Join 100+ agents already using PropAI</span>
+              <span className="text-sm text-gray-300">Join 100+ agents already using REMA</span>
             </div>
           </div>
         </div>
@@ -184,9 +184,9 @@ function App() {
       <div id="how-it-works" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">How PropAI Works</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">How REMA Works</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Get started with PropAI in three simple steps
+              Get started with REMA in three simple steps
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-12">
@@ -208,7 +208,7 @@ function App() {
               <div className="absolute -left-4 -top-4 w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xl font-bold">3</div>
               <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition h-full">
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">Go Live</h3>
-                <p className="text-gray-600">Launch your automated system and watch as PropAI handles property listings, lead responses, and scheduling while you focus on closing deals.</p>
+                <p className="text-gray-600">Launch your automated system and watch as REMA handles property listings, lead responses, and scheduling while you focus on closing deals.</p>
               </div>
             </div>
           </div>
