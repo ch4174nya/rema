@@ -86,6 +86,7 @@ export default function DemoLayout() {
         bg-white border-r 
         z-30 
         transition-transform duration-300 ease-in-out
+        flex flex-col
       `}>
         <div className="h-16 flex items-center justify-between px-6 border-b">
           <div className="flex items-center">
@@ -99,7 +100,7 @@ export default function DemoLayout() {
             <X className="h-6 w-6" />
           </button>
         </div>
-        <nav className="p-4 space-y-2">
+        <nav className="p-4 space-y-2 flex-grow overflow-y-auto">
           <Link
             to="/demo"
             className={`flex items-center px-4 py-2 rounded-lg ${
@@ -173,7 +174,7 @@ export default function DemoLayout() {
             Profile
           </Link>
         </nav>
-        <div className="absolute bottom-0 w-64 p-4 border-t">
+        <div className="w-full p-4 border-t bg-white mt-auto">
           <Link
             to="/"
             className="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
