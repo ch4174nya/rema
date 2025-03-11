@@ -1,7 +1,35 @@
-import React, { useState } from 'react';
-import { MessageSquare, Phone, Video, Search, Star, MoreVertical, Send, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useState } from 'react';
+import { Phone, Video, Search, Star, MoreVertical, Send, Clock, CheckCircle2, AlertCircle, ChevronLeft, Info, X } from 'lucide-react';
 
-const SAMPLE_CHATS = [
+// Define the chat type
+interface Chat {
+  id: number;
+  name: string;
+  lastMessage: string;
+  time: string;
+  unread: number;
+  avatar: string;
+  status: 'hot' | 'warm';
+  messages: {
+    id: number;
+    type: 'sent' | 'received';
+    message: string;
+    time: string;
+  }[];
+  leadDetails: {
+    interest: string;
+    budget: string;
+    requirements: string[];
+    aiInsight: string;
+    conversionProbability: number;
+    timeline: {
+      time: string;
+      action: string;
+    }[];
+  };
+}
+
+const SAMPLE_CHATS: Chat[] = [
   {
     id: 1,
     name: 'John Lee',
@@ -24,6 +52,17 @@ const SAMPLE_CHATS = [
         time: '10:31 AM',
       },
     ],
+    leadDetails: {
+      interest: 'Marine Parade Condo',
+      budget: 'S$1.2M - S$1.5M',
+      requirements: ['3 bedrooms', 'High floor', 'Near MRT'],
+      aiInsight: 'High probability of conversion (85%). Suggest scheduling a viewing within 48 hours.',
+      conversionProbability: 85,
+      timeline: [
+        { time: '2 mins ago', action: 'Inquired about availability' },
+        { time: '5 mins ago', action: 'Viewed listing details' }
+      ]
+    }
   },
   {
     id: 2,
@@ -53,6 +92,18 @@ const SAMPLE_CHATS = [
         time: '9:25 AM',
       },
     ],
+    leadDetails: {
+      interest: 'Tampines HDB Flat',
+      budget: 'S$600K - S$750K',
+      requirements: ['4-room', 'Renovated', 'Close to amenities'],
+      aiInsight: 'Medium conversion probability (65%). Recommend offering virtual tour options.',
+      conversionProbability: 65,
+      timeline: [
+        { time: '1 hour ago', action: 'Requested weekend viewing' },
+        { time: '2 hours ago', action: 'Asked about availability' },
+        { time: '1 day ago', action: 'Saved listing to favorites' }
+      ]
+    }
   },
 ];
 
@@ -60,11 +111,30 @@ export default function ChatManagement() {
   const [selectedChat, setSelectedChat] = useState(SAMPLE_CHATS[0]);
   const [newMessage, setNewMessage] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [mobileView, setMobileView] = useState('list'); // 'list', 'chat', or 'details'
+  
+  const handleChatSelect = (chat: Chat) => {
+    setSelectedChat(chat);
+    // On mobile, switch to chat view when a chat is selected
+    if (window.innerWidth < 768) {
+      setMobileView('chat');
+    }
+  };
+  
+  const toggleLeadDetails = () => {
+    setMobileView(mobileView === 'details' ? 'chat' : 'details');
+  };
 
   return (
-    <div className="h-screen flex">
-      {/* Chat List */}
-      <div className="w-80 border-r bg-white">
+    <div className="h-screen flex flex-col md:flex-row">
+      {/* Chat List - Hidden on mobile when viewing a chat or details */}
+      <div className={`
+        ${mobileView !== 'list' ? 'hidden' : 'flex flex-col'} 
+        md:flex md:flex-col 
+        md:w-80 
+        border-r bg-white 
+        h-full
+      `}>
         <div className="p-4 border-b">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -77,11 +147,11 @@ export default function ChatManagement() {
             />
           </div>
         </div>
-        <div className="overflow-y-auto h-[calc(100vh-73px)]">
+        <div className="overflow-y-auto flex-1">
           {SAMPLE_CHATS.map((chat) => (
             <div
               key={chat.id}
-              onClick={() => setSelectedChat(chat)}
+              onClick={() => handleChatSelect(chat)}
               className={`p-4 hover:bg-gray-50 cursor-pointer ${
                 selectedChat.id === chat.id ? 'bg-indigo-50' : ''
               }`}
@@ -127,12 +197,27 @@ export default function ChatManagement() {
         </div>
       </div>
 
-      {/* Chat Window */}
-      <div className="flex-1 flex flex-col bg-gray-50">
+      {/* Chat Window - Hidden on mobile when viewing the list or details */}
+      <div className={`
+        ${mobileView !== 'chat' && mobileView !== 'details' ? 'hidden' : 'flex flex-col'} 
+        md:flex md:flex-col 
+        flex-1 
+        bg-gray-50 
+        h-full
+        ${mobileView === 'details' ? 'hidden md:flex' : ''}
+      `}>
         {/* Chat Header */}
         <div className="bg-white border-b p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
+              {/* Back button on mobile */}
+              <button 
+                className="mr-2 p-1 text-gray-500 hover:bg-gray-100 rounded-lg md:hidden"
+                onClick={() => setMobileView('list')}
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              
               <img
                 src={selectedChat.avatar}
                 alt={selectedChat.name}
@@ -160,7 +245,14 @@ export default function ChatManagement() {
               <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg">
                 <Star className="h-5 w-5" />
               </button>
-              <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg">
+              {/* Info button for mobile to show lead details */}
+              <button 
+                className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg md:hidden"
+                onClick={toggleLeadDetails}
+              >
+                <Info className="h-5 w-5" />
+              </button>
+              <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg hidden md:block">
                 <MoreVertical className="h-5 w-5" />
               </button>
             </div>
@@ -217,45 +309,57 @@ export default function ChatManagement() {
         </div>
       </div>
 
-      {/* Lead Details Sidebar */}
-      <div className="w-80 border-l bg-white p-4">
+      {/* Lead Details Sidebar - Hidden on mobile when viewing list or chat */}
+      <div className={`
+        ${mobileView !== 'details' ? 'hidden' : 'flex flex-col'} 
+        md:flex md:flex-col 
+        md:w-80 
+        border-l bg-white p-4 
+        h-full
+      `}>
+        <div className="flex items-center justify-between mb-4 md:hidden">
+          <button 
+            className="p-1 text-gray-500 hover:bg-gray-100 rounded-lg"
+            onClick={() => setMobileView('chat')}
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
         <h3 className="text-lg font-medium text-gray-900 mb-4">Lead Details</h3>
         <div className="space-y-4">
           <div>
             <h4 className="text-sm font-medium text-gray-700">Interest</h4>
-            <p className="text-sm text-gray-900">Marine Parade Condo</p>
+            <p className="text-sm text-gray-900">{selectedChat.leadDetails.interest}</p>
           </div>
           <div>
             <h4 className="text-sm font-medium text-gray-700">Budget</h4>
-            <p className="text-sm text-gray-900">S$1.2M - S$1.5M</p>
+            <p className="text-sm text-gray-900">{selectedChat.leadDetails.budget}</p>
           </div>
           <div>
             <h4 className="text-sm font-medium text-gray-700">Requirements</h4>
             <ul className="text-sm text-gray-900 list-disc pl-4">
-              <li>3 bedrooms</li>
-              <li>High floor</li>
-              <li>Near MRT</li>
+              {selectedChat.leadDetails.requirements.map((requirement, index) => (
+                <li key={index}>{requirement}</li>
+              ))}
             </ul>
           </div>
           <div>
             <h4 className="text-sm font-medium text-gray-700">AI Insights</h4>
             <div className="mt-2 p-3 bg-indigo-50 rounded-lg">
               <p className="text-sm text-gray-900">
-                High probability of conversion (85%). Suggest scheduling a viewing within 48 hours.
+                {selectedChat.leadDetails.aiInsight}
               </p>
             </div>
           </div>
           <div>
             <h4 className="text-sm font-medium text-gray-700">Timeline</h4>
             <div className="mt-2 space-y-2">
-              <div className="flex items-start">
-                <div className="min-w-[100px] text-xs text-gray-500">2 mins ago</div>
-                <div className="text-sm text-gray-900">Inquired about availability</div>
-              </div>
-              <div className="flex items-start">
-                <div className="min-w-[100px] text-xs text-gray-500">5 mins ago</div>
-                <div className="text-sm text-gray-900">Viewed listing details</div>
-              </div>
+              {selectedChat.leadDetails.timeline.map((item, index) => (
+                <div key={index} className="flex items-start">
+                  <div className="min-w-[100px] text-xs text-gray-500">{item.time}</div>
+                  <div className="text-sm text-gray-900">{item.action}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
