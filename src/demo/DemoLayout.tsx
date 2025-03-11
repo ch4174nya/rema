@@ -1,10 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Building2, LayoutDashboard, MessageSquare, Calendar, BarChart3, LogOut, User, Menu, X } from 'lucide-react';
 
 export default function DemoLayout() {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showEarlyAccessModal, setShowEarlyAccessModal] = useState(false);
+
+  useEffect(() => {
+    // Show the modal after 4 seconds initially
+    const initialTimer = setTimeout(() => {
+      setShowEarlyAccessModal(true);
+    }, 4000);
+
+    // Clear the timer when component unmounts
+    return () => clearTimeout(initialTimer);
+  }, []);
+  
+  // Set up a timer to reshow the modal when it's closed
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    
+    // If modal is closed, set a timer to reopen it after 6 seconds
+    if (!showEarlyAccessModal) {
+      timer = setTimeout(() => {
+        setShowEarlyAccessModal(true);
+      }, 6000);
+    }
+    
+    // Clear the timer when component unmounts or modal state changes
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [showEarlyAccessModal]);
   
   const isActive = (path: string) => location.pathname === path;
   
@@ -14,6 +42,33 @@ export default function DemoLayout() {
   
   return (
     <div className="min-h-screen bg-gray-50 flex relative">
+      {/* Early Access Modal */}
+      {showEarlyAccessModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl max-w-md w-full p-6 relative">
+            <button 
+              onClick={() => setShowEarlyAccessModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+            >
+              <X className="h-6 w-6" />
+            </button>
+            <div className="text-center">
+              <Building2 className="h-12 w-12 text-indigo-600 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Get Early Access to REMA</h3>
+              <p className="text-gray-600 mb-6">Be among the first to experience our revolutionary real estate management assistant.</p>
+              <button 
+                onClick={() => {
+                  window.open('https://forms.gle/vpC1xCP61Mex54dE8', '_blank');
+                  setShowEarlyAccessModal(false);
+                }}
+                className="w-full bg-indigo-600 text-white px-4 py-3 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center"
+              >
+                Apply for Early Access
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div 
