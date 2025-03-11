@@ -265,7 +265,7 @@ function App() {
               <div className="text-center mb-8">
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">Professional</h3>
                 <div className="flex items-baseline justify-center">
-                  <span className="text-4xl font-bold text-gray-900">$49</span>
+                  <span className="text-4xl font-bold text-gray-900">$29</span>
                   <span className="text-gray-600 ml-2">/month</span>
                 </div>
                 <p className="text-gray-600 mt-4">For growing agencies</p>
